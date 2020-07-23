@@ -1,0 +1,4 @@
+stockName sectorType costPrice presentPrice purchaseDate numberOfShares totalProfit
+Sugar		2			10		8			2020-07-23		2			12
+Milk		3			10		8			2020-07-23		2			12
+Rice		3			10		8			2020-07-23		2			12
