@@ -13,6 +13,10 @@ public class Stock {
 	private double totalProfit;
 	
 	
+	public Stock() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	@Override
 	public String toString() {
 		return "Stock [stockName=" + stockName + ", sectorType=" + sectorType

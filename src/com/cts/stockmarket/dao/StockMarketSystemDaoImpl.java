@@ -151,13 +151,15 @@ public class StockMarketSystemDaoImpl implements StockMarketSystemDao{
 	
 		
 		String fileName = "inputFeed.txt";
-	
+		String line = null;
+		String[] splited = null;
+		
 	    PreparedStatement pstmt = null;
 		Connection connection=null;
 		
 		connection=new ConnectionManagerImpl().getConnection();
-		String line;
-		
+	
+			
 		try {
 			/*
 			 * String filetext =
@@ -171,32 +173,41 @@ public class StockMarketSystemDaoImpl implements StockMarketSystemDao{
 			
 			File file = new File(fileName);
 		    			
-		      BufferedReader  reader = new BufferedReader(new FileReader(file.getAbsoluteFile()));
-				line = reader.readLine();
+		    BufferedReader  bufferreader = new BufferedReader(new FileReader(file.getAbsoluteFile()));
+			
+		    line = bufferreader.readLine();
+				
 				while (line != null) {
 										
-					line = reader.readLine();   // read next line
-					String[] splited = line.split("\\s+");  //   \\s+ - matches sequence of one or more whitespace characters.
+					line = bufferreader.readLine();   // read next line
+					splited = line.split("\\s+");  //   \\s+ - matches sequence of one or more whitespace characters.
 					
-					if(splited.length!=0) {
+				
 			         String qry="insert into stockmarketdb.stock (stockName, sectorType, costPrice, presentPrice, purchaseDate, numberOfShares, totalProfit) values (?, ?, ?, ?, ?, ?, ?)";
-					  pstmt = connection.prepareStatement(qry);
+					 pstmt = connection.prepareStatement(qry);
 					  
 					     pstmt.setString(1, splited[0]);
-					     pstmt.setInt(2, Integer.parseInt(splited[1]));
+					     pstmt.setString(2, Sector.valueOf(splited[1]).toString());
 					     pstmt.setDouble(3, Double.parseDouble(splited[2]));
 					     pstmt.setDouble(4, Double.parseDouble(splited[3]));
 					     pstmt.setDate(5, Date.valueOf(splited[4]));
 					     pstmt.setInt(6, Integer.parseInt(splited[5]));
 					     pstmt.setDouble(7, Integer.parseInt(splited[6]));		       		      
 					     pstmt.executeUpdate();    
-				}
+				
 					
 				}
+				bufferreader.close();
 						
 		}catch (Exception e) {
 			e.printStackTrace();
-		}
-		
+		}finally{
+			try {
+				pstmt.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}	
 	}
+}
 }

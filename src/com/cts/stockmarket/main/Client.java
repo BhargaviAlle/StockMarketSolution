@@ -31,8 +31,6 @@ public class Client {
 		}
 		
 		
-		
-		
 		System.out.println("\n\n\n\n\n");
 		List<Stock>  list=impl.getsStockSectorwise(map,Sector.Infotech);
 		for (Stock stock : list) {
